@@ -8,7 +8,7 @@ import { StockService} from '../services/stock.service';
 	template: `
 		stock list
 		<li *ngFor = "let stock of stocks">
-			{{stock.name}}
+			{{stock.name}} ({{stock.symbol}}) - $ {{stock.price}} 
 		</li>
 	`
 })
@@ -16,10 +16,8 @@ export class StockListComponent {
 	stocks : Stock[];
 
 	constructor(private stockService: StockService) { }
-
+	
 	getStocks() {
-		// for a sync call...
-    	// this.stocks = this.stockService.getStocks();
 		this.stockService.getStocks().then(stocks => this.stocks = stocks);
   	}
 
