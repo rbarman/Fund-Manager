@@ -1,14 +1,16 @@
 import { Component, OnInit} from '@angular/core';
 import { Stock} from './stock';
 import { StockService} from '../services/stock.service';
+import {StockDetailsComponent} from './stock-details.component';
 
 @Component({
 	selector: "my-stockList",
 	providers: [StockService],
+	directives: [StockDetailsComponent],
 	template: `
 		stock list
 		<li *ngFor = "let stock of stocks">
-			{{stock.name}} ({{stock.symbol}}) - $ {{stock.price}} 
+			<my-stockDetails [stock]="stock"></my-stockDetails>
 		</li>
 	`
 })
