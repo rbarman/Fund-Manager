@@ -5,7 +5,7 @@ import { Stock} from './stock';
 @Component({
 	selector: 'my-stockDetails',
 	template: `
-		{{stock.name}} ({{stock.symbol}}) - $ {{stock.price}} 
+		{{stock.name}} ({{stock.symbol}}) - \${{stock.price}} 
 	`
 })
 

@@ -20,6 +20,8 @@ export class StockListComponent {
 	constructor(private stockService: StockService) { }
 	
 	getStocks() {
+		// for temp
+		// this.stockService.getStocks();
 		this.stockService.getStocks().then(stocks => this.stocks = stocks);
   	}
 

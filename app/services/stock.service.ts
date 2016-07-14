@@ -22,8 +22,44 @@ export class StockService {
 		return Promise.resolve(symbols);
 	}
 
-	// returns array of Stocks w/ price info
+	// returns array of Stocks w/ Price info
+	// uses yahoo csv finance api => http://www.jarloo.com/yahoo_finance/ for unofficial documentation
 	getPriceOfStocks(symbols) {
+		// Building the GET url.
+		// ex) http://finance.yahoo.com/d/quotes.csv?s=GOOG,YHOO&f=p
+		var proxy = "https://crossorigin.me/";
+		var urlStart = "http://finance.yahoo.com/d/quotes.csv?s=";
+		var stockList = "";
+		for(var symbol of symbols) {
+			stockList = stockList + symbol + ",";
+		}
+		stockList = stockList.substring(0, stockList.length - 1);
+		var urlEnd = "&f=nsp"; // name, symbol, price, 
+		var url = proxy + urlStart + stockList + urlEnd;
+
+		// GET url built, now make http.get call
+		return this.http.get(url).toPromise().then(function(data){
+			var text = data.text(); 
+			var csvLines = text.split("\n"); 
+			csvLines.pop(); // last element is just blank line
+			var stocks : Stock[] = [];
+			csvLines.forEach(function(csvLine){
+				// for each csv line, get the values and create a Stock.
+				// TODO: instead of csv, use a csv parser?
+				var values = csvLine.split(','); // nsp
+				stocks.push({
+					// want to remove surrounding double quotes on the string values
+					name: values[0].replace(/"/g,""), 
+					symbol: values[1].replace(/"/g,""),
+					price: Number(values[2])
+				})
+			})
+			return stocks;
+		});
+	}
+
+	// returns array of Stocks w/ price info
+	getPriceOfStocksDepreciated(symbols) {
 		// Building the GET url.
 		// ex) http://finance.yahoo.com/webservice/v1/symbols/AAPL,GOOG/quote?format=json
 		// old csv url : "https://crossorigin.me/https://finance.yahoo.com/d/quotes.csv?s=";
