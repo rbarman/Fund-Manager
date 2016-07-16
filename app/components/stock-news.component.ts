@@ -1,7 +1,7 @@
 import { Component, Input, OnInit} from '@angular/core';
 import { Stock} from '../models/stock';
 import { ArticleService} from '../services/article.service';
-import { NytArticle} from '../models/nyt-article';
+import { YfArticle} from '../models/yf-article';
 
 // Component to display all news relating the inputted Stock
 @Component({
@@ -12,21 +12,22 @@ import { NytArticle} from '../models/nyt-article';
 		{{stock.name}} News
 		<div *ngIf="articles">
 			<li *ngFor = "let article of articles">
-				<a href="{{article.web_url}}">{{article.snippet}}</a>
+				<a href="{{article.link}}">{{article.title}}</a>
 			</li>
-		</div>
+		</div> 
 	`
 })
 
 export class StockNewsComponent implements OnInit{
 	@Input()
 	stock: Stock;
-	articles: NytArticle[];
+	articles: YfArticle[];
 
 	constructor(
    		private articleService: ArticleService) {}
 
  	ngOnInit() {
-		this.articleService.getArticles(this.stock).then(articles => this.articles = articles);
+		this.articleService.getYfArticles(this.stock).then(articles => this.articles = articles);
+		// this.articleService.getYfArticles(this.stock);
  	}
 }
