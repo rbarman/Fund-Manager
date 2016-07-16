@@ -22,15 +22,13 @@ export class StockListComponent {
 		private stockService: StockService,
 		private router: Router){}
 	
-	getStocks() {
-		// for temp
-		// this.stockService.getStocks();
-		this.stockService.getStocks().then(stocks => this.stocks = stocks);
+	getTrackedStocks() {
+		this.stockService.getTrackedStocks().then(stocks => this.stocks = stocks);
   	}
 
 	// lifecycle hook
 	ngOnInit() {
-	    this.getStocks();
+	    this.getTrackedStocks();
 	}
 
 	// go to stock route based on clicked stock

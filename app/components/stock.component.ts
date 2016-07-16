@@ -28,7 +28,7 @@ export class StockComponent implements OnInit, OnDestroy {
  		// http://localhost:3000/stock/AAPL => set stock based on symbol in route params
  	    this.sub = this.route.params.subscribe(params => {
 	    	var symbol = params['symbol'];
-      		this.stockService.getPriceOfStock(symbol).then(stock => this.stock = stock);
+      		this.stockService.getStock(symbol).then(stock => this.stock = stock);
  	    });
  	}
  

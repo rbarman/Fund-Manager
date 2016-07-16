@@ -10,20 +10,15 @@ export class StockService {
 
 	constructor(private http: Http) { }
 
-	// returns a list of the tracked stocks.
+	// returns a list of the tracked stock symbols.
 	// TODO: should be a db call and only return a list of symbols, not Stock objects
-	getTrackedStockBySymbol() {
-		var symbols = [] = ["AAPL", "GOOG"]
-		// var stocks : Stock[] = [
-			// {name: "Apple", symbol: "AAPL",price: 0},
-			// {name: "Google", symbol: "GOOG", price: 0}
-		// ]
-		// returning as a promise
+	getTrackedStockSymbols() {
+		var symbols = [] = ["AAPL", "GOOG"];
 		return Promise.resolve(symbols);
 	}
 
 	// returns Stock
- 	getPriceOfStock(symbol) {
+ 	getStock(symbol) {
  		// Building the GET url.
  		// ex) http://finance.yahoo.com/d/quotes.csv?s=GOOGf=p
  		var proxy = "https://crossorigin.me/";
@@ -48,9 +43,10 @@ export class StockService {
 
 	// returns array of Stocks w/ Price info
 	// uses yahoo csv finance api => http://www.jarloo.com/yahoo_finance/ for unofficial documentation
-	getPriceOfStocks(symbols) {
+	getStocks(symbols) {
 		// Building the GET url.
 		// ex) http://finance.yahoo.com/d/quotes.csv?s=GOOG,YHOO&f=p
+		// depreciated json url : http://finance.yahoo.com/webservice/v1/symbols/AAPL,GOOG/quote?format=json
 		var proxy = "https://crossorigin.me/";
 		var urlStart = "http://finance.yahoo.com/d/quotes.csv?s=";
 		var stockList = "";
@@ -82,51 +78,10 @@ export class StockService {
 		});
 	}
 
-	// returns array of Stocks w/ price info
-	getPriceOfStocksDepreciated(symbols) {
-		// Building the GET url.
-		// ex) http://finance.yahoo.com/webservice/v1/symbols/AAPL,GOOG/quote?format=json
-		// old csv url : "https://crossorigin.me/https://finance.yahoo.com/d/quotes.csv?s=";
-		// yahoo does not support CORs, so need to use a proxy. 
-		var proxy = "https://crossorigin.me/";
-		var urlStart = "http://finance.yahoo.com/webservice/v1/symbols/";
-		var stockList = "";
-		for(var symbol of symbols) {
-			stockList = stockList + symbol + ",";
-		}
-		stockList = stockList.substring(0, stockList.length - 1);
-		var urlEnd = "/quote?format=json";
-		var url = proxy + urlStart + stockList + urlEnd;
-
-		// GET url build, now make http.get call
-		return this.http.get(url).toPromise().then(function(data){
-			var temp = data.json();
-			var resources = temp.list.resources;
-			
-			// return stocks[] with all relevant info. 
-			var stocks : Stock[] = [];
-			//TODO: better names? => resource.resource
-			for(var i = 0; i < resources.length; i++){
-				var resource = resources[i];
-				var symbol = resource.resource.fields.symbol;
-				var name = resource.resource.fields.name;
-				var price = resource.resource.fields.price;
-				
-				stocks.push({
-					name:name,
-					symbol:symbol,
-					price:price
-				});
-			}
-			return stocks;
-		});
-	}
-
-	// returns the tracked stocks with price info
-	getStocks() {
+	getTrackedStocks() {
 		var self = this; // this changes in promise callback
-		return this.getTrackedStockBySymbol().then(function(symbols){
-			return self.getPriceOfStocks(symbols);
+		return this.getTrackedStockSymbols().then(function(symbols){
+			return self.getStocks(symbols);
 		}).catch(function(e){ console.log(e);});
 	}
 }
