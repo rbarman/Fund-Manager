@@ -1,5 +1,5 @@
 import { Component, Input} from '@angular/core';
-import { Stock} from './stock';
+import { Stock} from '../models/stock';
 
 //Component to display details of a stock: name, symbol, and price
 @Component({

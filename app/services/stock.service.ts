@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Stock} from '../components/stock';
+import { Stock} from '../models/stock';
 import { Http, Response, Headers,RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
