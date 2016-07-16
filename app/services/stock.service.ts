@@ -22,6 +22,30 @@ export class StockService {
 		return Promise.resolve(symbols);
 	}
 
+	// returns Stock
+ 	getPriceOfStock(symbol) {
+ 		// Building the GET url.
+ 		// ex) http://finance.yahoo.com/d/quotes.csv?s=GOOGf=p
+ 		var proxy = "https://crossorigin.me/";
+ 		var urlStart = "http://finance.yahoo.com/d/quotes.csv?s=";
+ 		var urlEnd = "&f=nsp"; // name, symbol, price, 
+ 		var url = proxy + urlStart + symbol + urlEnd;
+		// GET url built, now make http.get call
+ 		return this.http.get(url).toPromise().then(function(data){
+ 			var csvLine = data.text(); 
+ 			// create new stock based on csv 
+ 			var values = csvLine.split(',');
+ 			var stock : Stock = {
+ 				name: values[0].replace(/"/g,""), 
+ 				symbol: values[1].replace(/"/g,""),
+ 				price: Number(values[2])
+ 			}
+ 			console.log(stock);
+ 			return stock;
+ 		});
+ 	}
+
+
 	// returns array of Stocks w/ Price info
 	// uses yahoo csv finance api => http://www.jarloo.com/yahoo_finance/ for unofficial documentation
 	getPriceOfStocks(symbols) {

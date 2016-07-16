@@ -2,6 +2,7 @@ import { Component, OnInit} from '@angular/core';
 import { Stock} from '../models/stock';
 import { StockService} from '../services/stock.service';
 import {StockDetailsComponent} from './stock-details.component';
+import { Router } from '@angular/router';
 
 @Component({
 	selector: "my-stockList",
@@ -9,7 +10,7 @@ import {StockDetailsComponent} from './stock-details.component';
 	directives: [StockDetailsComponent],
 	template: `
 		stock list
-		<li *ngFor = "let stock of stocks">
+		<li *ngFor = "let stock of stocks" (click)="goToStock(stock)">
 			<my-stockDetails [stock]="stock"></my-stockDetails>
 		</li>
 	`
@@ -17,7 +18,9 @@ import {StockDetailsComponent} from './stock-details.component';
 export class StockListComponent {
 	stocks : Stock[];
 
-	constructor(private stockService: StockService) { }
+	constructor(
+		private stockService: StockService,
+		private router: Router){}
 	
 	getStocks() {
 		// for temp
@@ -29,4 +32,11 @@ export class StockListComponent {
 	ngOnInit() {
 	    this.getStocks();
 	}
+
+	// go to stock route based on clicked stock
+	goToStock(stock: Stock) {
+  		let link = ['/stock', stock.symbol];
+  		this.router.navigate(link);
+	}
+
 }

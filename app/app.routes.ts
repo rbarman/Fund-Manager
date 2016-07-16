@@ -1,5 +1,6 @@
 import { provideRouter, RouterConfig } from '@angular/router';
 import {PortfolioComponent} from './components/portfolio.component'
+import {StockComponent} from './components/stock.component'
 
 export const routes: RouterConfig = [
   { 
@@ -12,6 +13,11 @@ export const routes: RouterConfig = [
   	path: '',
     redirectTo: '/portfolio',
     terminal: true
+  },
+
+  {
+    path: 'stock/:symbol',
+    component: StockComponent
   }
 ];
 
