@@ -8,7 +8,9 @@
     'app':                        'app', // 'dist',
     '@angular':                   'node_modules/@angular',
     'angular2-in-memory-web-api': 'node_modules/angular2-in-memory-web-api',
-    'rxjs':                       'node_modules/rxjs'
+    'rxjs':                       'node_modules/rxjs',
+    '@angular2-material': 'node_modules/@angular2-material'
+
   };
   // packages tells the System loader how to load when no filename and/or no extension
   var packages = {
@@ -28,6 +30,19 @@
     'router-deprecated',
     'upgrade',
   ];
+
+  // put the names of any of your Material components here
+  // following : https://github.com/angular/material2/blob/master/GETTING_STARTED.md
+  var materialPkgs = [
+    'core',
+    'button',
+    'card',
+  ];
+
+  materialPkgs.forEach((pkg) => {
+    packages[`@angular2-material/${pkg}`] = {main: `${pkg}.js`};
+  });
+
   // Individual files (~300 requests):
   function packIndex(pkgName) {
     packages['@angular/'+pkgName] = { main: 'index.js', defaultExtension: 'js' };

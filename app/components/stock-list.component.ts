@@ -3,16 +3,19 @@ import { Stock} from '../models/stock';
 import { StockService} from '../services/stock.service';
 import {StockDetailsComponent} from './stock-details.component';
 import { Router } from '@angular/router';
+import {MD_CARD_DIRECTIVES} from '@angular2-material/card';
 
 @Component({
 	selector: "my-stockList",
 	providers: [StockService],
-	directives: [StockDetailsComponent],
+	directives: [StockDetailsComponent,MD_CARD_DIRECTIVES],
 	template: `
-		stock list
-		<li *ngFor = "let stock of stocks" (click)="goToStock(stock)">
-			<my-stockDetails [stock]="stock"></my-stockDetails>
-		</li>
+		<md-card>	
+			stock list
+			<li *ngFor = "let stock of stocks" (click)="goToStock(stock)">
+				<my-stockDetails [stock]="stock"></my-stockDetails>
+			</li>
+		</md-card>
 	`
 })
 export class StockListComponent {
