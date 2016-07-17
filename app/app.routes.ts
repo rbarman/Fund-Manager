@@ -18,6 +18,12 @@ export const routes: RouterConfig = [
   {
     path: 'stock/:symbol',
     component: StockComponent
+  },
+
+  {
+    path: '**',
+    redirectTo: '/portfolio',
+    terminal: true
   }
 ];
 
