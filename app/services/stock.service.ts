@@ -13,7 +13,7 @@ export class StockService {
 	// returns a list of the tracked stock symbols.
 	// TODO: should be a db call and only return a list of symbols, not Stock objects
 	getTrackedStockSymbols() {
-		var symbols = [] = ["AAPL", "GOOG"];
+		var symbols = [] = ["AAPL", "GOOG","NFLX","DIS","TWTR","GPRO"];
 		return Promise.resolve(symbols);
 	}
 
@@ -29,7 +29,7 @@ export class StockService {
  		return this.http.get(url).toPromise().then(function(data){
  			var csvLine = data.text(); 
  			// create new stock based on csv 
- 			var values = csvLine.split(',');
+ 			var values = csvLine.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
  			var stock : Stock = {
  				name: values[0].replace(/"/g,""), 
  				symbol: values[1].replace(/"/g,""),
@@ -65,9 +65,11 @@ export class StockService {
 			var stocks : Stock[] = [];
 			csvLines.forEach(function(csvLine){
 				// for each csv line, get the values and create a Stock.
-				// TODO: instead of csv, use a csv parser?
-				var values = csvLine.split(','); // nsp
-				stocks.push({
+				// TODO: instead of splitting strings, use a csv parser to reduce regex complexity? 
+				// can not simply do csvLine.split(',') because the name could have a comma in it
+					// Need to make split str by commas but ignore commas in between quotes
+				var values = csvLine.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
+				stocks.push({ // nsp
 					// want to remove surrounding double quotes on the string values
 					name: values[0].replace(/"/g,""), 
 					symbol: values[1].replace(/"/g,""),
