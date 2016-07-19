@@ -40,7 +40,9 @@
     "@angular2-material/sidenav": "^2.0.0-alpha.6",
     "@angular2-material/toolbar": "^2.0.0-alpha.6",
     "@angular2-material/tabs": "^2.0.0-alpha.6",
-    "@angular2-material/icon": "^2.0.0-alpha.6"
+    "@angular2-material/icon": "^2.0.0-alpha.6",
+    "ng2-charts": "1.1.0",
+    "chart.js":"2.2.0-rc.1"
   },
   "devDependencies": {
     "concurrently": "^2.0.0",
