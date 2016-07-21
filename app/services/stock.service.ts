@@ -19,10 +19,18 @@ export class StockService {
 
 		return this.http.get(url).toPromise().then(function(data){
 			console.log(data.text());
-		}
+			var csvLines = data.text().split("\n"); 
+			csvLines.shift(); // first line is just the header
+			// instead of a number array, may need to create an obj array
+			var historicalPrices: number[] = [];
+			csvLines.forEach(function(csvLine){
+				var historicalClose = Number(csvLine.split(',')[4]);
+				historicalPrices.push(historicalClose);
+			});
+			console.log(historicalPrices);
+			return historicalPrices;
+		});
 	}
-
-
 
 	// returns a list of the tracked stock symbols.
 	// TODO: should be a db call and only return a list of symbols, not Stock objects
