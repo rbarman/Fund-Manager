@@ -10,6 +10,20 @@ export class StockService {
 
 	constructor(private http: Http) { }
 
+	getPricesFromStartOfYear(symbol) {
+		// http://ichart.yahoo.com/table.csv?s=MSFT&a=0&b=1&c=2016
+		var proxy = "https://crossorigin.me/";
+ 		var urlStart = "http://ichart.yahoo.com/table.csv?s=";
+ 		var urlEnd = "&a=0&b=1&c=2016"; // hardcoded jan of 2016, will be dynamic
+ 		var url = proxy + urlStart + symbol + urlEnd;
+
+		return this.http.get(url).toPromise().then(function(data){
+			console.log(data.text());
+		}
+	}
+
+
+
 	// returns a list of the tracked stock symbols.
 	// TODO: should be a db call and only return a list of symbols, not Stock objects
 	getTrackedStockSymbols() {

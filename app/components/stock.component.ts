@@ -4,16 +4,18 @@ import { Stock} from '../models/stock';
 import { StockService} from '../services/stock.service';
 import {StockDetailsComponent} from './stock-details.component';
 import {StockNewsComponent} from './stock-news.component';
+import {StockPriceChartComponent} from './stock-price-chart.component';
 
 // Stock component for when the user goes to the Stock route.
 @Component({
 	selector: 'my-stock',
 	providers: [StockService],
-	directives: [StockDetailsComponent,StockNewsComponent],
+	directives: [StockDetailsComponent,StockNewsComponent,StockPriceChartComponent],
 	template: `
 		<div *ngIf="stock"> <!-- stock won't be defined until the promise is over -->
 			<my-stockDetails [stock]="stock"></my-stockDetails>
 			<my-stockNews [stock] = "stock"> </my-stockNews>
+			<my-stockPriceChart [stock] ="stock" > </my-stockPriceChart>
 		</div>
 	`
 })
