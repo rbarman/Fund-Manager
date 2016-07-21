@@ -22,8 +22,8 @@ export class StockPriceChartComponent implements OnInit {
  	constructor(
   		private stockService: StockService){}
 	ngOnInit() {
-		// this.stockService.getPricesFromStartOfYear(this.stock.symbol);	
+		// this.stockService.getPricesYearToDate(this.stock.symbol);	
 		// need to set data in some array to pass into chart directive
-		this.stockService.getPricesFromStartOfYear(this.stock.symbol).then(prices => this.chartData = prices);
+		this.stockService.getPricesYearToDate(this.stock.symbol).then(prices => this.chartData = prices);
 	}
 }

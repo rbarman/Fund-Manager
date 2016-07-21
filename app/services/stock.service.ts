@@ -10,24 +10,25 @@ export class StockService {
 
 	constructor(private http: Http) { }
 
-	getPricesFromStartOfYear(symbol) {
+	getPricesYearToDate(symbol) {
+		// TODO: move get prev year date to a helper
+		var date  = new Date();
+		date.setFullYear(date.getFullYear() - 1);
 		// http://ichart.yahoo.com/table.csv?s=MSFT&a=0&b=1&c=2016
 		var proxy = "https://crossorigin.me/";
  		var urlStart = "http://ichart.yahoo.com/table.csv?s=";
- 		var urlEnd = "&a=0&b=1&c=2016"; // hardcoded jan of 2016, will be dynamic
+ 		var urlEnd = "&a=0&b=1&c=" + date.getFullYear(); 
  		var url = proxy + urlStart + symbol + urlEnd;
 
 		return this.http.get(url).toPromise().then(function(data){
-			console.log(data.text());
 			var csvLines = data.text().split("\n"); 
 			csvLines.shift(); // first line is just the header
-			// instead of a number array, may need to create an obj array
+			// TODO: historicalPrices should be array of price and date?
 			var historicalPrices: number[] = [];
 			csvLines.forEach(function(csvLine){
 				var historicalClose = Number(csvLine.split(',')[4]);
 				historicalPrices.push(historicalClose);
 			});
-			console.log(historicalPrices);
 			return historicalPrices;
 		});
 	}
