@@ -38,7 +38,8 @@
     'core',
     'button',
     'card',
-    'list'
+    'list',
+    'input'
   ];
 
   materialPkgs.forEach((pkg) => {

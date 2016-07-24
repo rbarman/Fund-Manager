@@ -13,6 +13,11 @@ export class StockService {
 
 	constructor(private http: Http) { }
 
+	addStock(symbol) {
+		var myFirebaseRef = new Firebase(fireBaseUrl);
+		myFirebaseRef.push({'symbol': symbol});
+	}
+
 	removeStock(stock) {
 		var myFirebaseRef = new Firebase(fireBaseUrl);
 		// query to find obj by symbol attribute and remove it

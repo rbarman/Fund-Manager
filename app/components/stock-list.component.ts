@@ -6,11 +6,12 @@ import { Router } from '@angular/router';
 import {MD_CARD_DIRECTIVES} from '@angular2-material/card';
 import {MD_LIST_DIRECTIVES} from '@angular2-material/list';
 import {MD_BUTTON_DIRECTIVES} from '@angular2-material/button';
+import {StockSymbolFormComponent} from './stock-symbol-form.component';
 
 @Component({
 	selector: "my-stockList",
 	providers: [StockService],
-	directives: [StockDetailsComponent,MD_CARD_DIRECTIVES,MD_LIST_DIRECTIVES,MD_BUTTON_DIRECTIVES],
+	directives: [StockDetailsComponent,MD_CARD_DIRECTIVES,MD_LIST_DIRECTIVES,MD_BUTTON_DIRECTIVES,StockSymbolFormComponent],
 	template: `
 		<md-card>	
 			Stock List
@@ -22,6 +23,7 @@ import {MD_BUTTON_DIRECTIVES} from '@angular2-material/button';
 					</button>
 				</md-list-item>
 			</md-list>
+			<my-symbolForm> </my-symbolForm>
 		</md-card>
 	`
 })
@@ -32,6 +34,10 @@ export class StockListComponent {
 	constructor(
 		private router: Router,
 		private stockService: StockService){}
+
+	addStock(){
+		console.log("will add a stock");
+	}
 
 	removeStock(stock:Stock) {
 		this.stockService.removeStock(stock);

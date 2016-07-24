@@ -1,14 +1,14 @@
 import { Component, OnInit} from '@angular/core';
 import {StockListComponent} from './stock-list.component'
 import {StockPieChartComponent} from './stock-pie-chart.component'
-
 import { StockService} from '../services/stock.service';
 import { Stock} from '../models/stock';
+import {StockSymbolFormComponent} from './stock-symbol-form.component';
 
 @Component({
 	selector: 'my-portfolio',
 	providers: [StockService],
-	directives: [StockListComponent,StockPieChartComponent],
+	directives: [StockListComponent,StockPieChartComponent,StockSymbolFormComponent],
 	template: `
 			<h1> {{title}}</h1>
 			<div *ngIf="stocks">
@@ -18,6 +18,7 @@ import { Stock} from '../models/stock';
 				</div>
 				<div *ngIf="stocks.length == 0">
 					You have zero stocks in your portfolio. Add one!
+					<my-symbolForm> </my-symbolForm>
 				</div>
 			</div>
 		`
