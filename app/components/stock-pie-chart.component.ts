@@ -1,4 +1,4 @@
-import { Component, OnInit, Input} from '@angular/core';
+import { Component, Input, OnChanges} from '@angular/core';
 import { Stock} from '../models/stock';
 import {CHART_DIRECTIVES} from 'ng2-charts/ng2-charts';
 import {MD_CARD_DIRECTIVES} from '@angular2-material/card';
@@ -24,7 +24,7 @@ import {MD_CARD_DIRECTIVES} from '@angular2-material/card';
 	`
 })
 
-export class StockPieChartComponent implements OnInit {
+export class StockPieChartComponent implements OnChanges {
 	@Input()
 	stocks : Stock[];
 
@@ -41,26 +41,14 @@ export class StockPieChartComponent implements OnInit {
 		// console.log(e);
 	}
 
-	getChartLabels() {
-		var array : string[] = [];
-		this.stocks.forEach(function(stock){
-			array.push(stock.symbol);
-		})
-		return array;
+	setLabelsAndData(){
+		// labels will be stock symbols and data will be stock price
+		this.chartLabels = this.stocks.map(function(stock) {return stock.symbol;});
+		this.chartData = this.stocks.map(function(stock) {return stock.price;});
 	}
 
-	getChartData() {
-		var array : number[] = [];
-		this.stocks.forEach(function(stock){
-			array.push(stock.price);
-		})
-		return array;
+	ngOnChanges(change) {
+		// update the labels every time the @input,stocks, changes
+		this.setLabelsAndData();
 	}
-
-	// TODO: ngOnInit is not dynamic -> does not update on Input
-	ngOnInit() {
-		this.chartLabels = this.getChartLabels();
-	 	this.chartData = this.getChartData();
-	}
-
 }
