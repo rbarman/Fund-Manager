@@ -2,4 +2,4 @@
 
 [$$$$$$](https://angular.io)
 
-Angular2 + Typescript + $$
+Angular2 + Typescript + Firebase +  $$
