@@ -13,6 +13,15 @@ export class StockService {
 
 	constructor(private http: Http) { }
 
+	removeStock(stock) {
+		var myFirebaseRef = new Firebase(fireBaseUrl);
+		// query to find obj by symbol attribute and remove it
+		// https://www.firebase.com/docs/web/api/query/equalto.html
+		myFirebaseRef.orderByChild("symbol").equalTo(stock.symbol).on("child_added", function(snapshot) {
+  			myFirebaseRef.child(snapshot.key()).remove();
+		});
+	}	
+
 	// returns a list of the tracked stock symbols via FireBase.
 	getTrackedStockSymbols() {
 		var myFirebaseRef = new Firebase(fireBaseUrl);

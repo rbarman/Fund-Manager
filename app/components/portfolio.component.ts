@@ -12,8 +12,13 @@ import { Stock} from '../models/stock';
 	template: `
 			<h1> {{title}}</h1>
 			<div *ngIf="stocks">
-				<my-stockList [stocks]="stocks"></my-stockList>
-				<my-stockPieChart [stocks]="stocks"></my-stockPieChart>
+				<div *ngIf="stocks.length > 0">
+					<my-stockList [stocks]="stocks"></my-stockList>
+					<my-stockPieChart [stocks]="stocks"></my-stockPieChart>
+				</div>
+				<div *ngIf="stocks.length == 0">
+					You have zero stocks in your portfolio. Add one!
+				</div>
 			</div>
 		`
 })
@@ -30,7 +35,12 @@ export class PortfolioComponent implements OnInit {
 		// this.stockService.getTrackedStocks().then(stocks => this.stocks = stocks);
 		var self = this;
 		self.stockService.getTrackedStockSymbols().subscribe(function(symbols){
-			self.stockService.getStocks(symbols).then(stocks => self.stocks = stocks);
+			if(symbols.length == 0){
+				self.stocks = [];
+			}
+			else {
+				self.stockService.getStocks(symbols).then(stocks => self.stocks = stocks);
+			}
 		})
   	}
 

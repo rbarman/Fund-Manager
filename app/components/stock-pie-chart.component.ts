@@ -57,6 +57,7 @@ export class StockPieChartComponent implements OnInit {
 		return array;
 	}
 
+	// TODO: ngOnInit is not dynamic -> does not update on Input
 	ngOnInit() {
 		this.chartLabels = this.getChartLabels();
 	 	this.chartData = this.getChartData();

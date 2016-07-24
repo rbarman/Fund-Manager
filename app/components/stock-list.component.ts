@@ -16,6 +16,7 @@ import {MD_BUTTON_DIRECTIVES} from '@angular2-material/button';
 			Stock List
 			<md-list>
 				<md-list-item *ngFor = "let stock of stocks">
+					<button md-button color="warn" (click)="removeStock(stock)">X</button>
 				    <button md-raised-button (click)="goToStock(stock)">
 						<my-stockDetails [stock]="stock"></my-stockDetails>
 					</button>
@@ -29,7 +30,12 @@ export class StockListComponent {
 	stocks : Stock[];
 
 	constructor(
-		private router: Router){}
+		private router: Router,
+		private stockService: StockService){}
+
+	removeStock(stock:Stock) {
+		this.stockService.removeStock(stock);
+	}
 
 	// go to stock route based on clicked stock
 	goToStock(stock: Stock) {
