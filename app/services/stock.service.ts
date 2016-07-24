@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { Stock} from '../models/stock';
 import { Http, Response, Headers,RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
+import {Observable} from "rxjs/Observable";
+import {fireBaseUrl} from '../api-keys'
+declare var Firebase: any;
 
 // service provides data that multiple components can use
 // a component does not necessarily want to create + get data by itself
@@ -10,11 +13,23 @@ export class StockService {
 
 	constructor(private http: Http) { }
 
-	// returns a list of the tracked stock symbols.
-	// TODO: should be a db call and only return a list of symbols, not Stock objects
+	// returns a list of the tracked stock symbols via FireBase.
 	getTrackedStockSymbols() {
-		var symbols = [] = ["AAPL", "GOOG","NFLX","DIS","TWTR","GPRO"];
-		return Promise.resolve(symbols);
+		var myFirebaseRef = new Firebase(fireBaseUrl);
+		return Observable.create((observer) => {
+		    myFirebaseRef.on("value", function (snapshot) {
+		    	// want to extract all of the symbols and then put it in the observer.next()
+		    	var symbols = [];
+		    	// https://www.firebase.com/docs/web/api/datasnapshot/foreach.html
+		    	snapshot.forEach(function(childSnapshot){
+		    		var trackedStock = childSnapshot.val();
+		    		symbols.push(trackedStock.symbol);
+		    	})
+		        observer.next(symbols);
+		    });
+		  });
+		// var symbols = [] = ["AAPL", "GOOG","NFLX","DIS","TWTR","GPRO"];
+		// return Promise.resolve(symbols);
 	}
 
 	// returns Stock
@@ -35,7 +50,6 @@ export class StockService {
  				symbol: values[1].replace(/"/g,""),
  				price: Number(values[2])
  			}
- 			console.log(stock);
  			return stock;
  		});
  	}
@@ -80,10 +94,14 @@ export class StockService {
 		});
 	}
 
+	// For some reason this function returns an Subscriber. 
+	// Unclear how to deal with a Subscriber obj in PortfolioComponent.
+	// TODO: make it work;
 	getTrackedStocks() {
 		var self = this; // this changes in promise callback
-		return this.getTrackedStockSymbols().then(function(symbols){
+		return this.getTrackedStockSymbols().subscribe(function(symbols){
 			return self.getStocks(symbols);
-		}).catch(function(e){ console.log(e);});
+		});
+		// .catch(function(e){ console.log(e);});
 	}
 }

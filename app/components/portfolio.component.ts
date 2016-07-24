@@ -26,7 +26,12 @@ export class PortfolioComponent implements OnInit {
 		private stockService: StockService){}
 
 	getTrackedStocks() {
-		this.stockService.getTrackedStocks().then(stocks => this.stocks = stocks);
+		// TODO: get it to work with a 'master func' like getTrackedStocks() in StockService
+		// this.stockService.getTrackedStocks().then(stocks => this.stocks = stocks);
+		var self = this;
+		self.stockService.getTrackedStockSymbols().subscribe(function(symbols){
+			self.stockService.getStocks(symbols).then(stocks => self.stocks = stocks);
+		})
   	}
 
 	// lifecycle hook
